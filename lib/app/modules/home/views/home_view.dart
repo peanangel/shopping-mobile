@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping/app/modules/cart_page/views/cart_page_view.dart';
 import 'package:shopping/app/modules/home/controllers/home_controller.dart';
+import 'package:shopping/app/modules/product_detail_page/controllers/product_detail_page_controller.dart';
+import 'package:shopping/app/modules/product_detail_page/views/product_detail_page_view.dart';
 import 'package:shopping/app/modules/profile_page/views/profile_page_view.dart';
+import 'package:shopping/app/routes/app_pages.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
 
   @override
@@ -206,103 +209,140 @@ class HomeView extends StatelessWidget {
         ),
         SliverToBoxAdapter(
           child: SizedBox(
-            height: 50, // Adjust the height as needed
+            height: 50,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [Icon(Icons.category)],
+              children: const [Icon(Icons.category)],
             ),
           ),
         ),
         SliverPadding(
           padding: const EdgeInsets.all(16),
-          sliver: SliverGrid(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 0.75,
-            ),
-            delegate: SliverChildBuilderDelegate((
-              BuildContext context,
-              int index,
-            ) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 5),
+          sliver: Obx(() {
+            if (controller.isLoading.value) {
+              return const SliverToBoxAdapter(
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
+
+            if (controller.productList.isEmpty) {
+              return const SliverToBoxAdapter(
+                child: Center(child: Text('No products available.')),
+              );
+            }
+
+            return SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 0.7,
+              ),
+              delegate: SliverChildBuilderDelegate((
+                BuildContext context,
+                int index,
+              ) {
+                final product = controller.productList[index];
+
+                return GestureDetector(
+                  onTap: () {
+                    // Check if the controller is already available, and initialize it if not
+                    if (Get.isRegistered<ProductDetailPageController>() ==
+                        false) {
+                      Get.put(ProductDetailPageController());
+                    }
+
+                    // Pass the product to the ProductDetailPageView
+                    Get.to(() => ProductDetailPageView(), arguments: product);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(20),
-                          ),
-                          child: Image.network(
-                            'https://i.pinimg.com/736x/4c/fe/41/4cfe41532b80ba0299594ff99f19ce21.jpg',
-                            height: 160,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
+                        Expanded(
+                          flex: 3,
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(20),
+                                ),
+                                child: Image.network(
+                                  product.image.isNotEmpty
+                                      ? product.image
+                                      : 'https://via.placeholder.com/150',
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned(
+                                top: 8,
+                                right: 8,
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.favorite_border_rounded,
+                                    size: 20,
+                                    color: theme.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Positioned(
-                          top: 8,
-                          right: 8,
-                          child: Container(
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
                             padding: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.favorite_border_rounded,
-                              size: 20,
-                              color: theme.primaryColor,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    product.productName,
+                                    style: theme.textTheme.titleMedium
+                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '\$${product.price.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    color: theme.primaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Product ${index + 1}',
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '\$${(index + 1) * 99}.99',
-                            style: TextStyle(
-                              color: theme.primaryColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }, childCount: 10),
-          ),
+                  ),
+                );
+              }, childCount: controller.productList.length),
+            );
+          }),
         ),
       ],
     );

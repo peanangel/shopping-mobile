@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping/app/bindings/app_binding.dart';
+import 'package:shopping/app/service/user_preferences.dart';
 import 'app/routes/app_pages.dart';
 
-void main() {
+void main() async {
+ WidgetsFlutterBinding.ensureInitialized();
+  await UserPreferences().init();
   runApp(const MyApp());
 }
 
