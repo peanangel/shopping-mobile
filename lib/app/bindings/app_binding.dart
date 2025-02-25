@@ -7,6 +7,7 @@ import 'package:shopping/app/modules/product_detail_page/controllers/product_det
 import 'package:shopping/app/modules/profile_page/controllers/profile_page_controller.dart';
 import 'package:shopping/app/modules/register_page/controllers/register_page_controller.dart';
 import 'package:shopping/app/service/base_service.dart';
+import 'package:shopping/app/service/cart_service.dart';
 
 
 class AppBinding extends Bindings {
@@ -21,8 +22,11 @@ class AppBinding extends Bindings {
     Get.lazyPut(()=>ProfilePageController());
     Get.lazyPut(()=>HomeController());
     Get.lazyPut(()=>ProductDetailPageController());
+    Get.lazyPut(()=>CartPageController());
     // Get.put(ProductDetailPageController());
-   
+    // Get.lazyPut(()=>CartService());
+    Get.put(CartService());
+    
   
 
     

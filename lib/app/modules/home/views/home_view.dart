@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopping/app/modules/cart_page/controllers/cart_page_controller.dart';
 import 'package:shopping/app/modules/cart_page/views/cart_page_view.dart';
 import 'package:shopping/app/modules/home/controllers/home_controller.dart';
 import 'package:shopping/app/modules/product_detail_page/controllers/product_detail_page_controller.dart';
 import 'package:shopping/app/modules/product_detail_page/views/product_detail_page_view.dart';
 import 'package:shopping/app/modules/profile_page/views/profile_page_view.dart';
 import 'package:shopping/app/routes/app_pages.dart';
+import 'package:shopping/app/service/cart_service.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -252,7 +254,10 @@ class HomeView extends GetView<HomeController> {
                         false) {
                       Get.put(ProductDetailPageController());
                     }
-
+                    if (!Get.isRegistered<CartService>()) {
+                      Get.put(CartService());
+                    }
+                    // Get.put(CartPageController());
                     // Pass the product to the ProductDetailPageView
                     Get.to(() => ProductDetailPageView(), arguments: product);
                   },

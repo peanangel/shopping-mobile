@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
 import 'package:shopping/app/data/product_model.dart';
-import 'package:shopping/app/service/user_preferences.dart';
-import 'package:shopping/app/service/base_service.dart';
-import 'package:shopping/app/widgets/widget.dart';
+import 'package:shopping/app/modules/cart_page/controllers/cart_page_controller.dart';
+import 'package:shopping/app/service/cart_service.dart';
 
 class ProductDetailPageController extends GetxController {
   //TODO: Implement ProductDetailPageController
-  final BaseService _baseService = Get.find<BaseService>();
+
+  final CartService _cartService = Get.find<CartService>();
+  final CartPageController _cartController = Get.find<CartPageController>();
   late final ProductModel product;
   @override
   void onInit() {
@@ -24,37 +25,14 @@ class ProductDetailPageController extends GetxController {
     super.onClose();
   }
 
-  Future<void> addToCart() async {
-    // final title = titleController.text.trim();
-    // final description = descriptionController.text.trim();
 
-    // if (title.isEmpty || description.isEmpty) {
-    //   showMessage('Both Title and Description are required.', isError: true);
-    //   return;
-    // }
-    final userref = await UserPreferences().getUser();
-    final body = {"uid": userref?.uid, "pid": product.pid};
 
+  Future<void> addToCart(pid) async {
     try {
-      final response = await _baseService.post(
-        endpoint: "/products/cart",
-        data: body,
-      );
-
-      if (response['message'] == 'Product added to cart successfully' ||
-          response['message'] == 'Amount updated successfully') {
-        showMessage('added successfully!');
-      } else {
-        showMessage('Failed to add Todo. Please try again.', isError: true);
-      }
+      final updatedCart = await _cartService.addToCart(pid);
+      _cartController.cartItems.assignAll(updatedCart);
     } catch (e) {
-      showMessage(
-        'An error occurred. Please check your connection.',
-        isError: true,
-      );
-      print('Error: $e');
-    } finally {
-      // Ensure Get.back() is called after everything is done
+      print("Error adding to cart: $e");
     }
   }
 }

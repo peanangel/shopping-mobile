@@ -8,5 +8,7 @@ class CartPageBinding extends Bindings {
     Get.lazyPut<CartPageController>(
       () => CartPageController(),
     );
+
+    // Get.put(CartPageController());
   }
 }

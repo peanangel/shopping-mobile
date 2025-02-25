@@ -91,9 +91,8 @@ class BaseService extends GetxService {
     }
   }
 
-   Future<dynamic> delete({required String endpoint}) async {
-
-       Uri url = Uri.parse(getServerApiUrl() + endpoint);
+  Future<dynamic> delete({required String endpoint}) async {
+    Uri url = Uri.parse(getServerApiUrl() + endpoint);
     try {
       final response = await http.delete(url);
 
@@ -111,4 +110,38 @@ class BaseService extends GetxService {
   String handleError(Exception e) {
     return 'Error: ${e.toString()}';
   }
+
+  // Function to make PATCH requests
+  Future<dynamic> patch({
+    required String endpoint,
+    Map<String, dynamic>? data,
+  }) async {
+    Uri url = Uri.parse(getServerApiUrl() + endpoint);
+
+    try {
+      final response = await http.patch(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(data ?? {}),
+      );
+
+      // Check for successful response
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('Success: ${response.statusCode}');
+        print('Response Body: ${response.body}');
+        return json.decode(response.body);
+      } else {
+        print('Error: ${response.statusCode}');
+        print('Response Body: ${response.body}');
+        throw Exception(
+          'Failed to patch data: ${response.statusCode} - ${response.body}',
+        );
+      }
+    } catch (e) {
+      print('Exception: $e');
+      rethrow;
+    }
+  }
+
+  
 }

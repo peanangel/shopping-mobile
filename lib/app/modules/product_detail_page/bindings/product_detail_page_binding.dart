@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:shopping/app/service/cart_service.dart';
 
 import '../controllers/product_detail_page_controller.dart';
 
@@ -8,5 +9,7 @@ class ProductDetailPageBinding extends Bindings {
     Get.lazyPut<ProductDetailPageController>(
       () => ProductDetailPageController(),
     );
+    Get.lazyPut(()=>CartService());
+    // Get.put(CartService());
   }
 }

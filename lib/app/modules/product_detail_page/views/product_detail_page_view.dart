@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -5,8 +7,6 @@ import '../controllers/product_detail_page_controller.dart';
 
 class ProductDetailPageView extends GetView<ProductDetailPageController> {
   const ProductDetailPageView({super.key});
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class ProductDetailPageView extends GetView<ProductDetailPageController> {
                 fit: StackFit.expand,
                 children: [
                   // Product Image
-                  Image.network(controller.product.image, fit: BoxFit.cover),
+                  Image.network(controller.product!.image, fit: BoxFit.cover),
                   // Gradient overlay for better text visibility
                   Positioned(
                     bottom: 0,
@@ -100,7 +100,7 @@ class ProductDetailPageView extends GetView<ProductDetailPageController> {
                     children: [
                       Expanded(
                         child: Text(
-                          controller.product.productName,
+                          controller.product!.productName,
                           style: theme.textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -110,7 +110,7 @@ class ProductDetailPageView extends GetView<ProductDetailPageController> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            '\$${controller.product.price.toString()}',
+                            '\$${controller.product!.price.toString()}',
                             style: theme.textTheme.headlineSmall?.copyWith(
                               color: theme.primaryColor,
                               fontWeight: FontWeight.bold,
@@ -143,7 +143,7 @@ class ProductDetailPageView extends GetView<ProductDetailPageController> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        controller.product.point.toString(),
+                        controller.product!.point.toString(),
                         style: theme.textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -234,7 +234,9 @@ class ProductDetailPageView extends GetView<ProductDetailPageController> {
             children: [
               GestureDetector(
                 onTap: () {
-                   controller.addToCart();
+                  //  controller.addToCart();
+                  print("======${controller.product.pid}");
+                  controller.addToCart(controller.product.pid);
                 },
                 child: Container(
                   width: 50,
@@ -252,9 +254,7 @@ class ProductDetailPageView extends GetView<ProductDetailPageController> {
               const SizedBox(width: 16),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () {
-                   
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.primaryColor,
                     padding: const EdgeInsets.symmetric(vertical: 16),
