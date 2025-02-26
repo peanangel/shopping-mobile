@@ -255,7 +255,7 @@ class HomeView extends GetView<HomeController> {
                       Get.put(ProductDetailPageController());
                     }
                     if (!Get.isRegistered<CartService>()) {
-                      Get.put(CartService());
+                      Get.put(CartPageController());
                     }
                     // Get.put(CartPageController());
                     // Pass the product to the ProductDetailPageView

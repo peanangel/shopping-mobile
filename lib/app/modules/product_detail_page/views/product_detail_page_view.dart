@@ -204,7 +204,7 @@ class ProductDetailPageView extends GetView<ProductDetailPageController> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    controller.product.description,
+                    controller.product!.description,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       color: Colors.grey[600],
                       height: 1.5,
@@ -235,8 +235,8 @@ class ProductDetailPageView extends GetView<ProductDetailPageController> {
               GestureDetector(
                 onTap: () {
                   //  controller.addToCart();
-                  print("======${controller.product.pid}");
-                  controller.addToCart(controller.product.pid);
+                  print("======${controller.product!.pid}");
+                  controller.addToCart(controller.product!.pid);
                 },
                 child: Container(
                   width: 50,

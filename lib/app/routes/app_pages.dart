@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/cart_page/bindings/cart_page_binding.dart';
 import '../modules/cart_page/views/cart_page_view.dart';
+import '../modules/checkout_page/bindings/checkout_page_binding.dart';
+import '../modules/checkout_page/views/checkout_page_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login_page/bindings/login_page_binding.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.PRODUCT_DETAIL_PAGE,
       page: () => ProductDetailPageView(),
       binding: ProductDetailPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECKOUT_PAGE,
+      page: () => const CheckoutPageView(),
+      binding: CheckoutPageBinding(),
     ),
   ];
 }

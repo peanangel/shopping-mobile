@@ -302,6 +302,7 @@
 // CartPageView.dart fixes
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopping/app/routes/app_pages.dart';
 import '../controllers/cart_page_controller.dart';
 
 class CartPageView extends GetView<CartPageController> {
@@ -355,7 +356,7 @@ class CartPageView extends GetView<CartPageController> {
                 Text('Your cart is empty', style: theme.textTheme.titleMedium),
                 const SizedBox(height: 8),
                 ElevatedButton(
-                  onPressed: () => Get.back(),
+                  onPressed: () => Get.to(Routes.HOME),
                   child: const Text('Start Shopping'),
                 ),
               ],

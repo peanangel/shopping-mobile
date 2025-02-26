@@ -12,7 +12,7 @@ class ProductDetailPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    product = Get.arguments ?? ProductModel;
+    product = Get.arguments;
   }
 
   @override

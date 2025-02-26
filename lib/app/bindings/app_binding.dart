@@ -20,12 +20,13 @@ class AppBinding extends Bindings {
     Get.put(BaseService());
     Get.lazyPut(()=>CartPageController());
     Get.lazyPut(()=>ProfilePageController());
-    Get.lazyPut(()=>HomeController());
+    // Get.lazyPut(()=>HomeController());
     Get.lazyPut(()=>ProductDetailPageController());
     Get.lazyPut(()=>CartPageController());
     // Get.put(ProductDetailPageController());
     // Get.lazyPut(()=>CartService());
     Get.put(CartService());
+    Get.put(HomeController());
     
   
 

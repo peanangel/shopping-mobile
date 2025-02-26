@@ -165,6 +165,7 @@ class CartPageController extends GetxController {
 
   // Clear all items from cart
   Future<void> clearCart() async {
+    
     cartItems.value = await _cartService.clearCart();
   }
 
