@@ -4,7 +4,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:http/http.dart' as http;
 
 class BaseService extends GetxService {
-  final String serverUrl = "http://10.10.0.114:3000";
+  final String serverUrl = "http://localhost:3000";
   final String serverPath = "/shopping";
 
   String getServerUrl() => serverUrl;

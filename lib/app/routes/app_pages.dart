@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:shopping/app/middleware/auth_middleware.dart';
 
 import '../modules/cart_page/bindings/cart_page_binding.dart';
 import '../modules/cart_page/views/cart_page_view.dart';
@@ -27,6 +28,7 @@ class AppPages {
       name: _Paths.HOME,
       page: () => const HomeView(),
       binding: HomeBinding(),
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: _Paths.CART_PAGE,

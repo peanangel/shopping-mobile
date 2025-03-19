@@ -356,7 +356,7 @@ class CartPageView extends GetView<CartPageController> {
                 Text('Your cart is empty', style: theme.textTheme.titleMedium),
                 const SizedBox(height: 8),
                 ElevatedButton(
-                  onPressed: () => Get.to(Routes.HOME),
+                  onPressed: () => Get.toNamed(Routes.HOME),
                   child: const Text('Start Shopping'),
                 ),
               ],

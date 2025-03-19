@@ -13,26 +13,15 @@ import 'package:shopping/app/service/cart_service.dart';
 class AppBinding extends Bindings {
   @override
   void dependencies() {
-
     Get.lazyPut<AppController>(() => AppController());  
     Get.put(RegisterPageController());
     Get.put(LoginPageController());
     Get.put(BaseService());
-    Get.lazyPut(()=>CartPageController());
-    Get.lazyPut(()=>ProfilePageController());
-    // Get.lazyPut(()=>HomeController());
-    Get.lazyPut(()=>ProductDetailPageController());
-    Get.lazyPut(()=>CartPageController());
-    // Get.put(ProductDetailPageController());
-    // Get.lazyPut(()=>CartService());
-    Get.put(CartService());
-    Get.put(HomeController());
-    
-  
 
-    
- 
-    
-
+    Get.lazyPut(() => CartPageController());
+    Get.lazyPut(() => ProfilePageController());
+    Get.lazyPut(() => HomeController());
+    Get.lazyPut(() => ProductDetailPageController());
+    Get.lazyPut(() => CartService()); // ใช้ lazyPut เพื่อโหลดเมื่อจำเป็น
   }
 }

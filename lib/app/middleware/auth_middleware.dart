@@ -17,8 +17,8 @@
 //     final user = await userPrefs.getUser();
 
 //     // Public routes that don't require authentication
-//     if (route == '/login' || 
-//         route == '/register' || 
+//     if (route == '/login' ||
+//         route == '/register' ||
 //         route == '/forgot-password') {
 //       if (isLoggedIn) {
 //         // If user is already logged in, redirect to appropriate dashboard
@@ -47,3 +47,22 @@
 //     return null; // Allow access to protected routes for authenticated users
 //   }
 // }
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shopping/app/service/user_preferences.dart';
+import 'package:shopping/app/routes/app_pages.dart';
+
+class AuthMiddleware extends GetMiddleware {
+  @override
+  RouteSettings? redirect(String? route) {
+    // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือยัง
+    bool isLoggedIn = UserPreferences().isLoggedIn();
+
+    if (!isLoggedIn) {
+      // ถ้ายังไม่เข้าสู่ระบบ ให้เปลี่ยนเส้นทางไปหน้า Login
+      return const RouteSettings(name: Routes.LOGIN_PAGE);
+    }
+    return null; // อนุญาตให้เข้าถึงหน้าที่ร้องขอ
+  }
+}

@@ -12,6 +12,7 @@ class ProductDetailPageBinding extends Bindings {
     );
     Get.lazyPut(()=>CartService());
     Get.put(HomeController());
+    
     // Get.put(CartService());
   }
 }
